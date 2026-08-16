@@ -16,6 +16,8 @@ validate_dir() {
 log_archive() {
     local date_time
     local save_dir="$HOME/archives"
+    local -a tar_items=()
+    local path absolute parent name
 
     date_time=$(date +%Y%m%d_%H%M%S)
 
@@ -34,8 +36,16 @@ log_archive() {
         echo "Erro ao criar diretório: $save_dir"
         return 1
     fi
+
+    for path in "$@"; do
+        absolute=$(realpath "$path")
+        parent=$(dirname "$absolute")
+        name=$(basename "$absolute")
+
+        tar_items+=(-C "$parent" "$name")
+    done
     
-    if tar -czvf $save_dir/logs_archive_${date_time}.tar.gz "$@"; then
+    if tar -czvf $save_dir/logs_archive_${date_time}.tar.gz "${tar_items[@]}"; then
         echo "Arquivo de log compactado com sucesso e salvo em $save_dir"
     else
         echo "Erro ao compactar arquivo!"
