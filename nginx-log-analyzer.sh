@@ -21,8 +21,13 @@ response_status_code() {
 
 user_agents() {
     echo ""
-    echo "Top 5 user agents:"
-    awk -F'"' '{print $6}' "$file" | sort | uniq -c | sort -nr | head -5 | awk '{printf "%s - %s requests\n", $2, $1}'
+    
+    awk -F'"' '{print $6}' "$file" | sort | uniq -c | sort -nr | head -5 | awk '{
+        quantidade = $1
+        $1 = ""
+        sub(/^[[:space:]]+/, "")
+        printf "%s - %s requests\n", $0, quantidade
+    }'
 }
 
 main() {
