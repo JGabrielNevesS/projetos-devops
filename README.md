@@ -7,7 +7,6 @@ Sumário
 - [log-archive](log-archive/README.md) — compacta logs em `~/archives`
 - [nginx-log-analyzer](nginx-log-analyzer/README.md) — analisador de logs (sh + Python)
 - [server-stats](server-stats/README.md) — coletor de métricas básicas do servidor
-- [logs](logs/) — exemplos de logs
 
 Pré-requisitos
 - Bash
