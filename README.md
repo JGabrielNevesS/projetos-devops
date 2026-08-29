@@ -48,7 +48,6 @@ python3 nginx-log-analyzer/nginx-log-analyzer.py logs/access.log
 
 Próximos passos sugeridos
 - Adicionar `requirements.txt` se adicionarmos dependências Python
-- Gerar exemplos de logs em `logs/` para testes automatizados
 - Integração contínua básica (GitHub Actions): rodar lint e testes de scripts
 
 Contribuição
