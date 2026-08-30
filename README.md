@@ -7,6 +7,7 @@ Sumário
 - [log-archive](log-archive/README.md) — compacta logs em `~/archives`
 - [nginx-log-analyzer](nginx-log-analyzer/README.md) — analisador de logs (sh + Python)
 - [server-stats](server-stats/README.md) — coletor de métricas básicas do servidor
+- [ansible/ansible-server-setup](ansible/ansible-server-setup/README.md) — playbooks e roles para setup de servidores
 
 Pré-requisitos
 - Bash
@@ -38,6 +39,7 @@ Como usar
   - [dummy-service/README.md](dummy-service/README.md)
   - [log-archive/README.md](log-archive/README.md)
   - [nginx-log-analyzer/README.md](nginx-log-analyzer/README.md)
+  - [ansible/ansible-server-setup/README.md](ansible/ansible-server-setup/README.md)
   - [server-stats/README.md](server-stats/README.md)
 
 Exemplo rápido (analisador de Nginx):

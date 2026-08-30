@@ -1,0 +1,27 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for base
+
+- name: Atualizar o cache do APT
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: safe
+
+- name: Instalar pacotes básicos
+  ansible.builtin.apt:
+    name: 
+      - fail2ban
+      - curl
+      - git
+      - tar
+      - unzip
+      - ca-certificates
+    state: present
+    cache_valid_time: 3600
+
+- name: start fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: started
+    enabled: true

@@ -1,0 +1,46 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for app
+
+
+
+- name: criar diretório para a aplicação
+  ansible.builtin.file:
+    path: /var/www/ansible-app
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: enviar arquivo da aplicação para o servidor
+  ansible.builtin.copy:
+    src: site.tar.gz
+    dest: /tmp/ansible-app.tar.gz
+    owner: www-data
+    group: www-data
+    mode: "0644"
+  register: app_archive
+
+
+- name: verificar se o arquivo index.html existe
+  ansible.builtin.stat:
+    path: /var/www/ansible-app/index.html
+  register: app_index
+
+- name: Descompactar arquivo da aplicação
+  ansible.builtin.unarchive:
+    src: /tmp/ansible-app.tar.gz
+    dest: /var/www/ansible-app
+    remote_src: true
+    owner: www-data
+    group: www-data
+  when: app_archive.changed or not app_index.stat.exists
+
+- name: garantir permissões corretas para os arquivos da aplicação
+  ansible.builtin.file:
+    path: /var/www/ansible-app
+    owner: www-data
+    group: www-data
+    mode: "u=rwX,g=rX,o=rX"
+    recurse: true
+

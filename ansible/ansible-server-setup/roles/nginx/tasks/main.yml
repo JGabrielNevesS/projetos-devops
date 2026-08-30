@@ -1,0 +1,70 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for nginx
+- name: Instalar nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: start nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: configurar nginx - diretorio do site
+  ansible.builtin.file:
+    path: /var/www/ansible-app
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0755"
+
+- name: configurar nginx - arquivo index.html
+  ansible.builtin.template:
+    src: ansible-app.conf.j2
+    dest: /etc/nginx/sites-available/ansible-app
+    owner: root
+    group: root
+    mode: "0644"
+  notify: recarregar nginx
+
+- name: configurar nginx - habilitar site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/ansible-app
+    dest: /etc/nginx/sites-enabled/ansible-app
+    state: link
+  notify: recarregar nginx
+
+- name: remover site default
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: recarregar nginx
+    
+
+- name: Validar configuração do Nginx
+  ansible.builtin.command:
+    cmd: /usr/sbin/nginx -t
+  changed_when: false
+
+- name: Instalar percistência do firewall para Nginx
+  ansible.builtin.apt:
+    name: iptables-persistent
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Abrir portas HTTP e HTTPS no firewall
+  ansible.builtin.iptables:
+    chain: INPUT
+    protocol: tcp
+    destination_port: "{{ item }}"
+    jump: ACCEPT
+    rule_num: "5"
+  loop:
+    - 80
+    - 443
+  notify: Salvar regras do firewall
