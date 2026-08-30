@@ -1,3 +1,12 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for ssh
+
+- name: copiar chave publica
+  ansible.posix.authorized_key:
+    user: "ubuntu"
+    state: present
+    key: "{{ lookup('ansible.builtin.file', role_path + '/files/chave-desafio.pub') }}"
+    manage_dir: true
+    exclusive: false
+
