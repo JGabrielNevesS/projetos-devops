@@ -10,7 +10,21 @@ addresses_requests() {
 most_requests() {
     echo ""
     echo "Top 5 most requested paths:"
-    awk '{print $7}' "$file" | sort | uniq -c | sort -nr | head -5 | awk '{printf "%s - %s requests\n", $2, $1}'
+    awk -F'"' '
+        {
+            request = $2
+            parts = split(request, req, " ")
+
+            if (parts == 3 && req[3] ~ /^HTTP\//) {
+                print req[2]
+            } else {
+                malformed++
+            }
+        }
+        END {
+            print "Requisições inválidas:", malformed > "/dev/stderr"
+        }
+        ' "$file" | sort | uniq -c | sort -nr | head -5 | awk '{printf "%s - %s requests\n", $2, $1}'
 }
 
 response_status_code() {
