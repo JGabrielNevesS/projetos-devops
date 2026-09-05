@@ -2,3 +2,10 @@
 *.tar.gz
 inventory.ini
 
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+crash.log
