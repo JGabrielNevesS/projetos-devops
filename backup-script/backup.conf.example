@@ -1,0 +1,15 @@
+# Copie para backup.conf e ajuste os valores. Este arquivo é código Bash.
+REMOTE_HOST="192.168.1.100"
+REMOTE_USER="joao"
+REMOTE_DIR="/home/joao/backups/meu-computador"
+SSH_PORT=22
+# Opcional; deixe vazio para usar as chaves padrão ou o agente SSH.
+SSH_KEY=""
+
+# Caminhos relativos à sua home. Subpastas são mantidas no destino.
+# Inclua apenas caminhos existentes; ajuste os nomes conforme seu sistema.
+SOURCES=(
+    "Documentos"
+    # ".bashrc"
+    # ".config/algum-programa"
+)
